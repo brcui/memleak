@@ -43,7 +43,7 @@ function createTodoElement(contents) {
     const container = document.createElement('div');
     container.appendChild(doneButton);
     container.appendChild(todoText);
-    container.setAttribute('data-div-id', `${id++}: ${contents}`);
+    container.setAttribute('data-div-id', `${id}: ${contents}`);
 
     doneButton.addEventListener('click', () => {
         if (container.parentNode) {
