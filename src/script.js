@@ -5,6 +5,16 @@ function $(id) {
 const INPUT = $('input');
 const CREATE = $('create');
 const LIST = $('list');
+const GARBAGE = $('garbage');
+const CLEAN = $('clean');
+
+const generateId = (() => {
+    let id = 1;
+    return () => {
+        return id++;
+    };
+})();
+let leakyElements = [];
 
 function createDoneButton() {
     const button = document.createElement('button');
@@ -15,16 +25,25 @@ function createDoneButton() {
 function createTodoTextElement(contents) {
     const spanElement = document.createElement('span');
     spanElement.textContent = contents;
+
+    if (GARBAGE.checked) {
+        leakyElements.push(spanElement);
+    }
     return spanElement;
 }
 
 function createTodoElement(contents) {
+    const id = generateId();
     const doneButton = createDoneButton();
-    const todoText = createTodoTextElement(contents);
-    const container = document.createElement('div');
+    doneButton.setAttribute('data-button-id', `${id}: ${contents}`);
 
+    const todoText = createTodoTextElement(contents);
+    todoText.setAttribute('data-span-id', `${id}: ${contents}`);
+
+    const container = document.createElement('div');
     container.appendChild(doneButton);
     container.appendChild(todoText);
+    container.setAttribute('data-div-id', `${id++}: ${contents}`);
 
     doneButton.addEventListener('click', () => {
         if (container.parentNode) {
@@ -44,6 +63,7 @@ function createTodo() {
     const todoElement = createTodoElement(todoText);
     LIST.appendChild(todoElement);
     INPUT.value = '';
+    INPUT.focus();
 }
 
 CREATE.addEventListener('click', createTodo);
@@ -55,3 +75,6 @@ INPUT.addEventListener('keypress', (e) => {
 
 INPUT.focus();
 
+CLEAN.addEventListener('click', () => {
+    leakyElements = [];
+});
