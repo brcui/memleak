@@ -6,6 +6,8 @@ const INPUT = $('input');
 const CREATE = $('create');
 const LIST = $('list');
 const GARBAGE = $('garbage');
+const GARBAGECOUNT = $('garbageCount');
+const RESTORE = $('restore');
 const CLEAN = $('clean');
 
 const generateId = (() => {
@@ -27,6 +29,7 @@ function createTodoTextElement(contents) {
     spanElement.textContent = contents;
 
     if (GARBAGE.checked) {
+        spanElement.style.color = 'limegreen';
         leakyElements.push(spanElement);
     }
     return spanElement;
@@ -64,6 +67,12 @@ function createTodo() {
     LIST.appendChild(todoElement);
     INPUT.value = '';
     INPUT.focus();
+
+    updateGarbageCount();
+}
+
+function updateGarbageCount() {
+    GARBAGECOUNT.textContent = `${leakyElements.length} being held`;
 }
 
 CREATE.addEventListener('click', createTodo);
@@ -77,4 +86,12 @@ INPUT.focus();
 
 CLEAN.addEventListener('click', () => {
     leakyElements = [];
+    updateGarbageCount();
+});
+
+RESTORE.addEventListener('click', () => {
+    for (const spanElement of leakyElements) {
+        LIST.appendChild(spanElement.parentNode);
+    }
+    updateGarbageCount();
 });

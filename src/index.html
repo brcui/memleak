@@ -14,6 +14,10 @@
             width: 600px;
             margin: auto;
         }
+
+        #list button {
+            margin-right: .8rem;
+        }
     </style>
 </head>
 
@@ -30,7 +34,7 @@
 &lt;/div&gt;
         </pre></code>
         <p>
-            When the "Leak completed ToDos" checkbox is checked, the <code>&lt;span&gt;</code> element will be saved in the <code>leakyElements</code> global array.
+            When the "Leak created ToDos" checkbox is checked, the <code>&lt;span&gt;</code> element will be saved in the <code>leakyElements</code> global array when a new ToDo is created.
         </p>
         <p>
             Complete ToDo items to detach them from the document tree. Collect garbage using the Memory tool, then query Airlock to view elements that are still in memory but are not attached to the document.
@@ -43,8 +47,10 @@
         </p>
         <hr>
         <div>
-            <input id="garbage" type="checkbox" checked="checked" />Leak completed ToDos
+            <input id="garbage" type="checkbox" checked="checked" />Leak created ToDos
             <button id="clean">Clean up</button>
+            <button id="restore">Restore</button>
+            <span id="garbageCount"></span>
         </div>
         <h2>ToDo</h2>
         <div id="list"></div>
